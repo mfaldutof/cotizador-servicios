@@ -4,7 +4,7 @@ const statusEl = document.getElementById('status');
 const quoteNumber = document.getElementById('quoteNumber');
 const professionSelect = document.getElementById('professionSelect');
 const customProfession = document.getElementById('customProfession');
-const consentText = 'Acepto que la información de esta cotización pueda usarse de forma agregada y anónima para estadísticas internas del mercado de servicios. No se publicarán datos personales del cliente.';
+const consentText = 'Acepto y autorizo que la información de esta cotización pueda ser utilizada exclusivamente de forma agregada y anonimizada para fines estadísticos, analíticos y de mejora del servicio. Los datos personales contenidos en la cotización no serán vendidos, cedidos, compartidos ni publicados de manera que permitan identificar a una persona física. La información será tratada conforme a la normativa aplicable de protección de datos y utilizada únicamente para las finalidades aquí descritas.';
 const PROFILE_KEY = 'cotizador_profile_v1';
 const SEQUENCES_KEY = 'cotizador_sequences_v1';
 
