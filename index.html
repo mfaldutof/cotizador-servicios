@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cotizador Pro</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div>
+        <span class="badge">Cotizador para independientes</span>
+        <h1>Crea cotizaciones profesionales en segundos</h1>
+        <p>Ideal para técnicos, electricistas, plomeros, jardineros, diseñadores y emprendedores de servicios.</p>
+      </div>
+      <div class="hero-card">
+        <strong>Resumen</strong>
+        <span id="summaryCount">0 servicios agregados</span>
+        <span id="summaryTotal">Total: $0.00</span>
+      </div>
+    </section>
+
+    <section class="layout">
+      <form id="quoteForm" class="panel form-panel">
+        <div class="section-title">
+          <h2>Datos del profesional</h2>
+          <p>Esta información aparecerá en la cotización.</p>
+        </div>
+
+        <div class="grid two">
+          <label>Tu nombre o negocio
+            <input name="sellerName" placeholder="Ej. Manuel Servicios" />
+          </label>
+          <label>Teléfono
+            <input name="sellerPhone" placeholder="Ej. +507 6000-0000" />
+          </label>
+          <label>Rubro / servicio profesional
+            <select name="profession" id="professionSelect">
+              <option value="">Selecciona un rubro</option>
+              <option value="Electricista">Electricista</option>
+              <option value="Plomero">Plomero</option>
+              <option value="Jardinero">Jardinero</option>
+              <option value="Técnico de aire acondicionado">Técnico de aire acondicionado</option>
+              <option value="Técnico de computadoras">Técnico de computadoras</option>
+              <option value="Pintor">Pintor</option>
+              <option value="Albañil / construcción menor">Albañil / construcción menor</option>
+              <option value="Carpintero">Carpintero</option>
+              <option value="Cerrajero">Cerrajero</option>
+              <option value="Mecánico">Mecánico</option>
+              <option value="Limpieza">Limpieza</option>
+              <option value="Diseñador gráfico">Diseñador gráfico</option>
+              <option value="Fotógrafo">Fotógrafo</option>
+              <option value="Community manager">Community manager</option>
+              <option value="Asistente virtual">Asistente virtual</option>
+              <option value="Transporte / delivery">Transporte / delivery</option>
+              <option value="Belleza / estética">Belleza / estética</option>
+              <option value="Otro">Otro rubro</option>
+            </select>
+            <input name="customProfession" id="customProfession" class="hidden" placeholder="Escribe tu rubro" />
+          </label>
+          <label>Ciudad
+            <input name="city" placeholder="Ej. Panamá" />
+          </label>
+        </div>
+
+        <div class="section-title">
+          <h2>Cliente</h2>
+          <p>Datos básicos de la persona que recibirá la cotización.</p>
+        </div>
+
+        <div class="grid two">
+          <label>Nombre del cliente *
+            <input name="clientName" required placeholder="Ej. Juan Pérez" />
+          </label>
+          <label>Teléfono del cliente
+            <input name="clientPhone" placeholder="Opcional" />
+          </label>
+          <label>Número de cotización
+            <input name="quoteNumber" id="quoteNumber" />
+          </label>
+          <label class="valid-until">Válido hasta
+            <input type="date" name="validUntil" />
+          </label>
+        </div>
+
+        <div class="section-title row-title">
+          <div>
+            <h2>Servicios</h2>
+            <p>Agrega cada servicio. La cantidad indica cuántas unidades, horas, visitas, días o piezas estás cobrando; el monto es el precio unitario por cada una.</p>
+          </div>
+          <button type="button" id="addItem" class="secondary">+ Agregar servicio</button>
+        </div>
+
+        <div id="items" class="items"></div>
+
+        <div class="grid two compact">
+          <label>Impuesto (%)
+            <input type="number" name="taxRate" value="0" min="0" step="0.01" />
+          </label>
+          <label>Moneda
+            <select name="currency">
+              <option value="$">$ USD</option>
+              <option value="B/.">B/. PAB</option>
+              <option value="€">€ EUR</option>
+            </select>
+          </label>
+        </div>
+
+        <label>Notas
+          <textarea name="note" placeholder="Ej. Incluye mano de obra. Materiales no incluidos."></textarea>
+        </label>
+
+        <label class="consent">
+          <input type="checkbox" name="consentAccepted" />
+          <span>Acepto que la información de esta cotización pueda usarse de forma agregada y anónima para generar estadísticas internas del mercado de servicios. No se publicarán datos personales del cliente.</span>
+        </label>
+
+        <div class="actions">
+          <button type="submit">Guardar cotización</button>
+          <button type="button" id="printQuote" class="secondary">Imprimir / PDF</button>
+        </div>
+        <p id="status" class="status"></p>
+      </form>
+
+      <aside class="panel preview-panel">
+        <div class="quote-preview" id="preview">
+          <div class="preview-header">
+            <div>
+              <span class="mini">Cotización</span>
+              <h2 id="pSeller">Tu negocio</h2>
+              <p id="pSellerMeta">Teléfono · Ciudad</p>
+            </div>
+            <strong id="pQuoteNumber">COT-0001</strong>
+          </div>
+
+          <div class="preview-block">
+            <span>Cliente</span>
+            <strong id="pClient">Nombre del cliente</strong>
+            <p id="pDate">Fecha de emisión</p>
+          </div>
+
+          <table>
+            <thead><tr><th>Servicio</th><th>Cant.</th><th>Precio</th><th>Total</th></tr></thead>
+            <tbody id="pItems"></tbody>
+          </table>
+
+          <div class="totals">
+            <div><span>Subtotal</span><strong id="pSubtotal">$0.00</strong></div>
+            <div><span>Impuesto</span><strong id="pTax">$0.00</strong></div>
+            <div class="grand"><span>Total</span><strong id="pTotal">$0.00</strong></div>
+          </div>
+
+          <p id="pNote" class="note-preview">Notas de la cotización.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
