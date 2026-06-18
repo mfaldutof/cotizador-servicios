@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cotizador Simple</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="panel no-print">
+      <h1>Cotizador Simple</h1>
+      <p>Crea cotizaciones rápidas para servicios informales y guarda cada transacción para seguimiento.</p>
+
+      <div class="grid two">
+        <label>Nombre del profesional / negocio
+          <input id="sellerName" placeholder="Ej: Juan Pérez" />
+        </label>
+        <label>Teléfono / WhatsApp
+          <input id="sellerPhone" placeholder="Ej: +507 6000-0000" />
+        </label>
+      </div>
+
+      <div class="grid two">
+        <label>Cliente
+          <input id="clientName" placeholder="Ej: María González" />
+        </label>
+        <label>Teléfono del cliente
+          <input id="clientPhone" placeholder="Opcional" />
+        </label>
+      </div>
+
+      <div class="grid two">
+        <label>Número de cotización
+          <input id="quoteNumber" />
+        </label>
+        <label>Fecha
+          <input id="quoteDate" type="date" />
+        </label>
+      </div>
+
+      <div class="grid two">
+        <label>Moneda
+          <select id="currency">
+            <option value="$">USD / $</option>
+            <option value="B/.">Balboa / B/.</option>
+            <option value="€">EUR / €</option>
+          </select>
+        </label>
+        <label>Impuesto (%)
+          <input id="taxRate" type="number" min="0" step="0.01" value="0" />
+        </label>
+      </div>
+
+      <h2>Servicios</h2>
+      <div id="items"></div>
+      <button class="secondary" id="addItem">+ Agregar servicio</button>
+
+      <label>Nota / condiciones
+        <input id="note" placeholder="Ej: Validez 7 días. 50% de adelanto." />
+      </label>
+
+      <div class="consent-box">
+        <label class="check">
+          <input id="consent" type="checkbox" />
+          <span>Acepto que la información de esta cotización pueda almacenarse y utilizarse de forma interna para seguimiento, mejora del servicio y estadísticas agregadas. No debe venderse ni compartirse con terceros sin autorización.</span>
+        </label>
+      </div>
+
+      <div class="actions">
+        <button id="saveBtn">Guardar cotización</button>
+        <button class="secondary" id="printBtn">Imprimir / PDF</button>
+        <button class="secondary" id="clearBtn">Limpiar</button>
+      </div>
+      <p id="status" class="status"></p>
+    </section>
+
+    <section class="quote" id="quote">
+      <div class="quote-header">
+        <div>
+          <h2 id="previewSeller">Tu negocio</h2>
+          <p id="previewPhone">Teléfono</p>
+        </div>
+        <div class="right">
+          <h1>COTIZACIÓN</h1>
+          <p id="previewNumber">#0001</p>
+          <p id="previewDate">Fecha</p>
+        </div>
+      </div>
+
+      <div class="bill-to">
+        <strong>Cliente:</strong>
+        <span id="previewClient">Nombre del cliente</span>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Servicio</th>
+            <th>Cant.</th>
+            <th>Precio</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody id="previewItems"></tbody>
+      </table>
+
+      <div class="totals">
+        <p><span>Subtotal:</span> <strong id="subtotal">$0.00</strong></p>
+        <p><span>Impuesto:</span> <strong id="tax">$0.00</strong></p>
+        <p class="grand"><span>Total estimado:</span> <strong id="grandTotal">$0.00</strong></p>
+      </div>
+
+      <p class="note" id="previewNote"></p>
+      <p class="small">Esta cotización es una estimación y puede cambiar si varía el alcance del servicio.</p>
+    </section>
+  </main>
+
+  <template id="itemTemplate">
+    <div class="item-row">
+      <input class="desc" placeholder="Descripción del servicio" />
+      <input class="qty" type="number" min="1" step="1" value="1" />
+      <input class="price" type="number" min="0" step="0.01" value="0" />
+      <button class="remove" title="Eliminar">×</button>
+    </div>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
