@@ -11,7 +11,7 @@ const SEQUENCES_KEY = 'cotizador_sequences_v1';
 function getProfessionalKey(data = getFormData()) {
   const identity = [data.sellerName, data.sellerPhone, data.profession].filter(Boolean).join('-') || 'profesional';
   return normalizeText(identity) || 'profesional';
-}
+
 
 function getSequences() {
   try { return JSON.parse(localStorage.getItem(SEQUENCES_KEY)) || {}; } catch { return {}; }
@@ -204,12 +204,22 @@ function updatePreview() {
   `).join('') : '<tr><td colspan="4">Agrega servicios para ver el detalle.</td></tr>';
 }
 
-document.getElementById('addItem').addEventListener('click', () => addItem());
 document.getElementById('printQuote').addEventListener('click', () => {
+  const consentAccepted = form.elements.consentAccepted?.checked;
+
+  if (!consentAccepted) {
+    statusEl.textContent = 'Debes aceptar y autorizar el tratamiento de la información antes de generar la cotización.';
+    alert('Debes aceptar el disclaimer para generar el PDF.');
+    return;
+  }
+
   const previousTitle = document.title;
   document.title = getQuoteFileName();
   window.print();
-  setTimeout(() => { document.title = previousTitle; }, 1000);
+
+  setTimeout(() => {
+    document.title = previousTitle;
+  }, 1000);
 });
 
 window.addEventListener('afterprint', () => {
