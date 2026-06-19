@@ -4,14 +4,14 @@ const statusEl = document.getElementById('status');
 const quoteNumber = document.getElementById('quoteNumber');
 const professionSelect = document.getElementById('professionSelect');
 const customProfession = document.getElementById('customProfession');
-const consentText = 'Acepto y autorizo que la información de esta cotización pueda ser utilizada exclusivamente de forma agregada y anonimizada para fines estadísticos, analíticos y de mejora del servicio. Los datos personales contenidos en la cotización no serán vendidos, cedidos, compartidos ni publicados de manera que permitan identificar a una persona física. La información será tratada conforme a la normativa aplicable de protección de datos y utilizada únicamente para las finalidades aquí descritas.';
+const consentText = 'Acepto que la información de esta cotización pueda usarse de forma agregada y anónima para estadísticas internas del mercado de servicios. No se publicarán datos personales del cliente.';
 const PROFILE_KEY = 'cotizador_profile_v1';
 const SEQUENCES_KEY = 'cotizador_sequences_v1';
 
 function getProfessionalKey(data = getFormData()) {
   const identity = [data.sellerName, data.sellerPhone, data.profession].filter(Boolean).join('-') || 'profesional';
   return normalizeText(identity) || 'profesional';
-
+}
 
 function getSequences() {
   try { return JSON.parse(localStorage.getItem(SEQUENCES_KEY)) || {}; } catch { return {}; }
@@ -204,34 +204,12 @@ function updatePreview() {
   `).join('') : '<tr><td colspan="4">Agrega servicios para ver el detalle.</td></tr>';
 }
 
-document.getElementById('printQuote').addEventListener('click', async () => {
-  const consentAccepted = form.elements.consentAccepted?.checked;
-
-  if (!consentAccepted) {
-    alert('Debes aceptar el disclaimer antes de generar el PDF.');
-    return;
-  }
-
-  form.requestSubmit();
-
-  setTimeout(() => {
-    const previousTitle = document.title;
-    document.title = getQuoteFileName();
-    window.print();
-
-    setTimeout(() => {
-      document.title = previousTitle;
-    }, 1000);
-  }, 800);
-});
-
+document.getElementById('addItem').addEventListener('click', () => addItem());
+document.getElementById('printQuote').addEventListener('click', () => {
   const previousTitle = document.title;
   document.title = getQuoteFileName();
   window.print();
-
-  setTimeout(() => {
-    document.title = previousTitle;
-  }, 1000);
+  setTimeout(() => { document.title = previousTitle; }, 1000);
 });
 
 window.addEventListener('afterprint', () => {
