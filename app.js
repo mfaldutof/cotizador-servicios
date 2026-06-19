@@ -205,7 +205,26 @@ function updatePreview() {
 }
 
 document.getElementById('addItem').addEventListener('click', () => addItem());
-document.getElementById('printQuote').addEventListener('click', () => {
+document.getElementById('printQuote').addEventListener('click', async () => {
+  const consentAccepted = form.elements.consentAccepted?.checked;
+
+  if (!consentAccepted) {
+    alert('Debes aceptar el disclaimer antes de generar el PDF.');
+    return;
+  }
+
+  form.requestSubmit();
+
+  setTimeout(() => {
+    const previousTitle = document.title;
+    document.title = getQuoteFileName();
+    window.print();
+
+    setTimeout(() => {
+      document.title = previousTitle;
+    }, 1000);
+  }, 1000);
+});
   const previousTitle = document.title;
   document.title = getQuoteFileName();
   window.print();
