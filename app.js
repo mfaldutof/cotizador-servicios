@@ -204,14 +204,26 @@ function updatePreview() {
   `).join('') : '<tr><td colspan="4">Agrega servicios para ver el detalle.</td></tr>';
 }
 
-document.getElementById('printQuote').addEventListener('click', () => {
+document.getElementById('printQuote').addEventListener('click', async () => {
   const consentAccepted = form.elements.consentAccepted?.checked;
 
   if (!consentAccepted) {
-    statusEl.textContent = 'Debes aceptar y autorizar el tratamiento de la información antes de generar la cotización.';
-    alert('Debes aceptar el disclaimer para generar el PDF.');
+    alert('Debes aceptar el disclaimer antes de generar el PDF.');
     return;
   }
+
+  form.requestSubmit();
+
+  setTimeout(() => {
+    const previousTitle = document.title;
+    document.title = getQuoteFileName();
+    window.print();
+
+    setTimeout(() => {
+      document.title = previousTitle;
+    }, 1000);
+  }, 800);
+});
 
   const previousTitle = document.title;
   document.title = getQuoteFileName();
